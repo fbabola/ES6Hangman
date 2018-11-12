@@ -12,18 +12,18 @@ class Game {
     };
     
     // Gets word puzzle, with correct letter guesses filled in, to be shown to player
-    getPuzzle() {
-        let puzzle = '';
+    get puzzle() {
+        this._puzzle = '';
 
         this.word.forEach((letter) => {
             if (this.guessedLetters.includes(letter) || letter === ' ') {
-                puzzle += letter;
+                this._puzzle += letter;
             } else {
-                puzzle += '*';
+                this._puzzle += '*';
             }
         });
 
-        return puzzle;
+        return this._puzzle;
     };
 
     guessLetter(letter) {
@@ -57,14 +57,15 @@ class Game {
             this.gameState = 'failed';
         };
         
-        const finished = this.word.every((letter) => this.guessedLetters.includes(letter));
+        // Accounts for spaces in hangman puzzle
+        const finished = this.word.every((letter) => this.guessedLetters.includes(letter) || letter === ' ');
     
         if (finished) {
             this.gameState = 'finished';
         };
     };
 
-    giveStatusMessage() {
+    get statusMessage() {
         if (this.gameState === 'playing') {
             return `Guesses left: ${this.guessesAllowed}`;
         } else if (this.gameState === 'failed') {
