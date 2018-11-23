@@ -1,9 +1,16 @@
 'use strict'
 
 const renderGame = () => {
-    puzzleDisplay.textContent = `The puzzle is ${game.puzzle}`;
+    puzzleDisplay.innerHTML = ''
     guessDisplay.textContent = game.statusMessage;
-}
+    
+    // Renders puzzle in more readable form
+    game.puzzle.split('').forEach(letter => {
+        const letterElement = document.createElement('span');
+        letterElement.textContent = letter;
+        puzzleDisplay.appendChild(letterElement);      
+    });
+};
 
 const startGame = async () => {
     const puzzle = await getPuzzle('2');
